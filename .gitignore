@@ -25,4 +25,5 @@ go.work.sum
 .env
 
 # config file
-*.json
+config.json
+!config/config-template.json
