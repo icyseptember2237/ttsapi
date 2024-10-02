@@ -15,6 +15,7 @@ import (
 	"os"
 	"path"
 	"strings"
+	"sync"
 	"time"
 	"ttsapi/config"
 	"ttsapi/logger"
@@ -34,6 +35,7 @@ type TTShHandler struct {
 	referAudioPath    string
 	outputAudioPath   string
 	currentModel      string
+	mutex             sync.Mutex
 	base
 }
 
@@ -183,6 +185,8 @@ func (handler *TTShHandler) setModels(model pair) error {
 }
 
 func (handler *TTShHandler) process(ctx context.Context) error {
+	handler.mutex.Lock()
+	defer handler.mutex.Unlock()
 	conn := rds.Get()
 	defer conn.Close()
 	arr, err := redis.Values(conn.Do("BRPOP", taskList, 5))
@@ -204,7 +208,7 @@ func (handler *TTShHandler) process(ctx context.Context) error {
 		return err
 	}
 
-	logger.Infof(ctx, "now handling task %v", t)
+	logger.Infof(ctx, "now handling task %v", t.Content)
 
 	if t.Model.Name != handler.currentModel {
 		err := handler.setModels(t.Model)
@@ -267,7 +271,7 @@ func (handler *TTShHandler) process(ctx context.Context) error {
 	} else {
 		return err
 	}
-	logger.Infof(ctx, " handling task %v finished", t)
+	logger.Infof(ctx, " handling task %v finished", t.Content)
 	return nil
 }
 
