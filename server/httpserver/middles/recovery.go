@@ -1,9 +1,9 @@
 package middles
 
 import (
-	"gotemplate/logger"
 	"net/http"
 	"runtime/debug"
+	"ttsapi/logger"
 
 	"github.com/gin-gonic/gin"
 )

@@ -1,6 +1,6 @@
 package main
 
-import "gotemplate/cmd"
+import "ttsapi/cmd"
 
 func main() {
 	cmd.Execute()

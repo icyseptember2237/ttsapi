@@ -1,7 +1,7 @@
 package httpserver
 
 import (
-	"gotemplate/server/httpserver/middles"
+	"ttsapi/server/httpserver/middles"
 )
 
 type Options struct {

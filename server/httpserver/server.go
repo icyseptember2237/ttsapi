@@ -4,13 +4,13 @@ import (
 	"context"
 	"errors"
 	"github.com/gin-gonic/gin"
-	"gotemplate/logger"
-	"gotemplate/server/httpserver/middles"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
+	"ttsapi/logger"
+	"ttsapi/server/httpserver/middles"
 )
 
 type Server interface {

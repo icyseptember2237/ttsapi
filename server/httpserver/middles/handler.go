@@ -4,10 +4,10 @@ import (
 	"context"
 	"errors"
 	"github.com/gin-gonic/gin"
-	"gotemplate/logger"
-	"gotemplate/server/httpserver/middles/status"
 	"net/http"
 	"reflect"
+	"ttsapi/logger"
+	"ttsapi/server/httpserver/middles/status"
 )
 
 type requestKey struct{}

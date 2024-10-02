@@ -3,8 +3,8 @@ package config
 import (
 	"github.com/mitchellh/mapstructure"
 	"github.com/pkg/errors"
-	"gotemplate/logger"
 	"reflect"
+	"ttsapi/logger"
 )
 
 func NewLoggerHook() Hook {

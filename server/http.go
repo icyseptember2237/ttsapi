@@ -4,9 +4,9 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"gotemplate/handler"
-	"gotemplate/server/httpserver"
 	"net/http"
+	"ttsapi/handler"
+	"ttsapi/server/httpserver"
 )
 
 type HttpServer struct {
@@ -23,7 +23,9 @@ func (h *HttpServer) New(address string) Service {
 }
 
 // 在此注册路由
-var httphandlers = []handler.Handler{}
+var httphandlers = []handler.Handler{
+	&handler.TTShHandler{},
+}
 
 func newRouter(address string) httpserver.Server {
 	httpServer := httpserver.NewServer(
@@ -41,8 +43,8 @@ func newRouter(address string) httpserver.Server {
 
 	v1 := router.Group("/v1")
 	{
-		for _, handler := range httphandlers {
-			handler.Init(v1)
+		for _, h := range httphandlers {
+			h.Init(v1)
 		}
 	}
 

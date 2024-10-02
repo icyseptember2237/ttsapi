@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"gotemplate/config"
-	"gotemplate/logger"
-	"gotemplate/storage/gorm"
-	"gotemplate/utils/exit"
 	"time"
+	"ttsapi/config"
+	"ttsapi/logger"
+	"ttsapi/storage/gorm"
+	rds "ttsapi/storage/redis"
+	"ttsapi/utils/exit"
 )
 
 func init() {
@@ -29,7 +30,7 @@ func preRun(cmd *cobra.Command, args []string) {
 	defer cancel()
 
 	conf := config.Get()
-	// TODO Mongo Redis初始化
+	// TODO Mongo初始化
 	if conf.Resources != nil && len(conf.Resources.Storage.Mysql) > 0 {
 		if err := gorm.Init(ctx, conf.Resources.Storage.Mysql, gorm.DBTypeMysql); err != nil {
 			panic(fmt.Errorf("MySQL init error: %s", err.Error()))
@@ -38,6 +39,12 @@ func preRun(cmd *cobra.Command, args []string) {
 	if conf.Resources != nil && len(conf.Resources.Storage.Postgresql) > 0 {
 		if err := gorm.Init(ctx, conf.Resources.Storage.Postgresql, gorm.DBTypePostgresql); err != nil {
 			panic(fmt.Errorf("PostgreSQL init error: %s", err.Error()))
+		}
+	}
+
+	if conf.Resources != nil && len(conf.Resources.Storage.Redis) > 0 {
+		if err := rds.Init(ctx, conf.Resources.Storage.Redis); err != nil {
+			panic(fmt.Errorf("redis init error: %s", err.Error()))
 		}
 	}
 	go exit.HouseKeeping()

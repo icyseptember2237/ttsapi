@@ -1,6 +1,12 @@
 {
   "server": {
     "port": ":8080",
+    "tts_address": "",
+    "gpt_weights_path": "",
+    "sovits_weights_path": "",
+    "refer_audio_path": "",
+    "output_audio_path": "",
+    "authorization": "",
     "log": {
       "level": "debug",
       "file": "./template.log",
